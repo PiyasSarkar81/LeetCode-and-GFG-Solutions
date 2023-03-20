@@ -1,33 +1,23 @@
 class Solution {
 public:
-    set<string> dict;
-    unordered_map<string,bool> memo;
-    int n;
-    bool check(string &s)
-    {
-        if(s.size()==0)
-        {
-            return true;
-        }
-        for(int j=1;j<=s.length();j++)
-        {
-            string left=s.substr(0,j);
-            string right=s.substr(j);
-            if(memo.find(s)!=memo.end())
-            return memo[s];
-            if(dict.find(left)!=dict.end()&&check(right))
-            {
-                return memo[s]=true;
+   
+    bool wordBreak(string s, vector<string>& wordDict) {
+        if(wordDict.size() == 0) return false;
+        vector<bool> dp(s.size()+1,false);
+        dp[0] = true;
+        for(int i =1;i<=s.size();i++){
+            for(int j = i-1;j>=0;j--){
+                if(dp[j]){
+                    string word = s.substr(j,i-j);
+                    for(auto words: wordDict){
+                        if(words == word){
+                            dp[i] = true;
+                            break;
+                        }
+                    }
+                }
             }
         }
-        return memo[s]=false;
-    }
-    bool wordBreak(string s, vector<string>& wordDict) {
-        n=s.length();
-        for(auto &word:wordDict)
-        {
-            dict.insert(word);
-        }
-        return check(s);
+        return dp[s.size()];
     }
 };
