@@ -12,14 +12,11 @@ class Solution{
 public:
     int remove_duplicate(int a[],int n){
         // code here
-        set<int> st;
-        for(int i =0;i<n;i++) st.insert(a[i]);
         int i =0;
-        for(auto s: st){
-            a[i] = s;
-            i++;
+        for(int j =1;j<n;j++){
+            if(a[i]!=a[j]) a[++i] = a[j];
         }
-        return i;
+        return ++i;
     }
 };
 
