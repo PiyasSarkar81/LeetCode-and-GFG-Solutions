@@ -13,13 +13,34 @@ class Solution{
     {
         //Your code here
         //return vector with correct order of elements
-        set <int> st;
-        for(int i =0;i<n;i++) st.insert(arr1[i]);
-        for(int i = 0;i<m;i++) st.insert(arr2[i]);
+        int i = 0, j =0;
         vector<int> ans;
-        for(auto s: st){
-            ans.push_back(s);
+        
+        while(i<n && j<m){
+            if(arr1[i] < arr2[j]){
+                if(ans.size() == 0 || ans.back() != arr1[i] ) ans.push_back(arr1[i]);
+                i++;
+            }
+            else if(arr1[i] > arr2[j]){
+                if(ans.size() == 0 || ans.back() != arr2[j] ) ans.push_back(arr2[j]);
+                j++;
+            }
+            else {
+                if(ans.size() == 0 || ans.back() != arr1[i] ) ans.push_back(arr1[i]);
+                i++,j++;
+            }
         }
+        
+        while(i < n){
+            if(ans.size() == 0 || ans.back() != arr1[i] ) ans.push_back(arr1[i]);
+            i++;
+        }
+        
+        while(j < m){
+            if(ans.size() == 0 || ans.back() != arr2[j] ) ans.push_back(arr2[j]);
+            j++;
+        }
+        
         return ans;
     }
 };
