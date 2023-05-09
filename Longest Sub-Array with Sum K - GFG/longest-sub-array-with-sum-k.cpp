@@ -17,7 +17,7 @@ class Solution{
             if(sum == K){
                 maxLen = max(maxLen, i+1);
             }
-            int rem = sum - K;
+            long long rem = sum - K;
             if(prefixSum.find(rem) != prefixSum.end()){
                 int len = i - prefixSum[rem];
                 maxLen = max(maxLen, len);
@@ -27,6 +27,21 @@ class Solution{
             }
         }
         return maxLen;
+        
+        
+        // Optimal sol for positive and zero
+        // int left = 0,right = 0, maxLen = 0;
+        // long long sum = A[0];
+        // while(right < N){
+        //     while(sum > K && left<= right){
+        //         sum -= A[left];
+        //         left++;
+        //     }
+        //     if(sum == K) maxLen = max(maxLen, right - left + 1);
+        //     right++;
+        //     if(right<N) sum += A[right];
+        // }
+        // return maxLen;
     } 
 
 };
