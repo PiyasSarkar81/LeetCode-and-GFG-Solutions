@@ -1,8 +1,10 @@
 //{ Driver Code Starts
+//Initial Template for C++
 // C program to find n'th Node in linked list
 #include <stdio.h>
 #include <stdlib.h>
 #include<iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
 /* Link list Node */
@@ -22,6 +24,45 @@ int getNthFromLast(struct Node* head, int n);
 
 
 /* Driver program to test above function*/
+
+// } Driver Code Ends
+/* struct Node {
+  int data;
+  struct Node *next;
+  Node(int x) {
+    data = x;
+    next = NULL;
+  }
+};
+*/
+
+//Function to find the data of nth node from the end of a linked list.
+class Solution{
+public:
+    int getNthFromLast(Node *head, int n)
+    {
+           // Your code here
+           Node* fast = head;
+           int l = n;
+           int cnt =0;
+           while(l-- && fast){
+                fast = fast -> next;
+                cnt++;   
+           } 
+           if(fast == nullptr && cnt<n) return -1;
+           Node * slow = head;
+           while(fast){
+               fast = fast -> next;
+               slow = slow -> next;
+           }
+           return slow -> data;
+    }
+};
+
+
+
+//{ Driver Code Starts.
+
 int main()
 {
   int T,i,n,l,k;
@@ -42,43 +83,9 @@ int main()
             tail->next = new Node(l);
             tail = tail->next;
         }
-
-    cout<<getNthFromLast(head, k)<<endl;
+    Solution obj;
+    cout<<obj.getNthFromLast(head, k)<<endl;
     }
     return 0;
 }
 // } Driver Code Ends
-
-
-/* struct Node {
-  int data;
-  struct Node *next;
-  Node(int x) {
-    data = x;
-    next = NULL;
-  }
-};
-*/
-
-//Function to find the data of nth node from the end of a linked list.
-int getNthFromLast(Node *head, int n)
-{
-       // Your code here
-       Node* fast = head,*temp = head;
-       int cnt=0;
-       int N = n;
-       while(N-- && fast != NULL){
-            fast = fast->next;
-            cnt++;
-       } 
-       if(cnt<n) return -1;
-        
-       Node* slow = head;
-       while(fast != NULL) {
-           fast = fast -> next;
-           slow = slow -> next;
-       }
-       
-       return slow->data;
-}
-
