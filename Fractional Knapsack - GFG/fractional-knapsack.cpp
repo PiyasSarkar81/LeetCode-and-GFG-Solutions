@@ -21,7 +21,7 @@ struct Item{
 class Solution
 {
     bool static comparesion(Item a, Item b){
-        return ((double)a.value/(double)a.weight) > ((double)b.value/(double)b.weight);
+        return (a.value/(double)a.weight) > (b.value/(double)b.weight);
     }
     
     public:
