@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int numOfArrays(int n, int m, int k) {
+        int dp[51][101][51], pre[51][101][51] , mod = 1e9+7;
+        for(int j =0;j<=m;j++){
+            dp[1][j][1] = 1;
+            pre[1][j][1] = j;
+        } 
+        for(int len = 2;len<=n;len++){
+            for(int mx =1;mx<=m;mx++){
+                for(int cost = 1;cost<=k;cost++){
+                    // In the first case we can appent any element form [1, mx] to the end of the array
+                    dp[len][mx][cost] = (1LL * mx * dp[len-1][mx][cost])%mod;
+                    // in the second case we can append mx to the end of the array
+                    dp[len][mx][cost] = (dp[len][mx][cost] + pre[len-1][mx-1][cost-1]) % mod;
+                    pre[len][mx][cost] = (pre[len][mx-1][cost] + dp[len][mx][cost]) % mod;
+                }
+            }
+        }
+        return pre[n][m][k];
+    }
+};
