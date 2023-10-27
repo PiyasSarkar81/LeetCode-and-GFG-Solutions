@@ -1,22 +1,22 @@
 class Solution {
 public:
-    string longestPalindrome(string s) {
-        string str;
-        int len = 0,start =0;
-        for(int i =0;i<s.length();i++){
-            int len1 = expandFromCenter(s,i,i);
-            int len2 = expandFromCenter(s,i,i+1);
-            if(len < max(len1,len2)){
-                len = max(len1,len2);
-                start = i - (len - 1)/2;
-            }
-            
+    bool isPalindrom(string& s,int i,int j){
+        while(i<j){
+            if(s[i++] != s[j--]) return false; 
         }
-        return s.substr(start,len);
+        return true;
     }
-    int expandFromCenter(string s,int left, int right){
-        while(left>right || s.length()<1) return 0;
-        while(0<=left && right<s.length() && s[left] == s[right]) left--,right++;
-        return right - left -1;
+    string longestPalindrome(string s) {
+        int n = s.size(),size = 0;
+        string ans;
+        for(int i=0;i<n;i++){
+            for(int j = i;j<n;j++){
+                if(isPalindrom(s,i,j) && (j-i+1) > size) {
+                    size = j-i+1;
+                    ans = s.substr(i,size);
+                }
+            }
+        }
+        return ans;
     }
 };
