@@ -1,19 +1,23 @@
 class Solution {
 public:
+    int dfs(int i, vector<int>& days, vector<int>& costs, vector<int>& memo) {
+        if (i >= days.size()) return 0;
+        if (memo[i] != -1) return memo[i];
+        int option1 = costs[0] + dfs(i + 1, days, costs, memo);
+
+        int j = i;
+        while (j < days.size() && days[j] < days[i] + 7) j++;
+        int option2 = costs[1] + dfs(j, days, costs, memo);
+
+        j = i;
+        while (j < days.size() && days[j] < days[i] + 30) j++;
+        int option3 = costs[2] + dfs(j, days, costs, memo);
+
+        return memo[i] = min({option1, option2, option3});
+    }
+
     int mincostTickets(vector<int>& days, vector<int>& costs) {
-        int n =days.size();
-        vector<int> dp(n+1,INT_MAX);
-        dp[n] = 0;
-        for(int i = n-1;i>=0;i--){
-            int cost1 = dp[i+1] + costs[0];
-            int cost7,cost30;
-            int d7 = i, d30 = i;
-            while(d7<n && days[d7] < days[i]+7) d7++;
-            while(d30<n && days[d30] < days[i] + 30) d30++;
-            cost7 = dp[d7] + costs[1];
-            cost30 = dp[d30] + costs[2];
-            dp[i] = min(cost1,min(cost7,cost30));
-        }
-        return dp[0];
+        vector<int> memo(days.size(), -1);
+        return dfs(0, days, costs, memo);
     }
 };
