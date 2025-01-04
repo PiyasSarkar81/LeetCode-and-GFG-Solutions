@@ -1,18 +1,18 @@
 class Solution {
 public:
-    int noOfWays(vector<int>& nums,int target,vector<int>&dp,int size){
-        if(target<0)return 0;
-        if(target==0) return 1;
-        if(dp[target]!=-1) return dp[target];
-        int ways =0;
-        for(int i=0;i<size;i++){
-            ways += noOfWays(nums,target-nums[i],dp,size);
-        }
-        dp[target]=ways;
-        return ways;
-    }
+    long long mod = 1e18+31;
     int combinationSum4(vector<int>& nums, int target) {
-        vector<int>dp(target+1,-1);
-        return noOfWays(nums,target,dp,nums.size());
+        vector<long long> dp(target+1,0);
+        dp[0] = 1;
+
+        for(int t=1;t<=target;t++){
+            for(auto num : nums){
+                if(num <= t)
+                    dp[t] = (dp[t]+ dp[t-num])%mod;
+            }
+        }
+
+        return dp[target];
+        
     }
 };
