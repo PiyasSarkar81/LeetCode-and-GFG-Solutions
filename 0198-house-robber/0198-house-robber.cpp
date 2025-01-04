@@ -1,14 +1,12 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        if(nums.size() == 0) return 0;
-        int prev1 =0;
-        int prev2 =0;
-        for(auto num : nums){
-            int tmp = prev1 ;
-            prev1 = max(prev2 + num, prev1);
-            prev2 = tmp;
-        }
-        return prev1;
+     int rob1 = 0,rob2 = 0;
+     for(auto num : nums){
+        int temp = max(rob1+num, rob2);
+        rob1 = rob2;
+        rob2 = temp;
+     }    
+     return rob2;
     }
 };
