@@ -1,32 +1,25 @@
 class Solution {
-public:
-    void mark_curr_island(vector<vector<char>>& grid,int x,int y,int row,int col){
-        if(x<0 || x>=row || y<0 || y>=col || grid[x][y]!='1')
-            return;
-        grid[x][y] = '2';
-        mark_curr_island(grid,x-1,y,row,col);
-        mark_curr_island(grid,x,y-1,row,col);
-        mark_curr_island(grid,x+1,y,row,col);
-        mark_curr_island(grid,x,y+1,row,col);
+    void dfs(vector<vector<char>>& grid, int i,int j){
+        int n = grid.size(), m = grid[0].size();
+        if(i<0 || j<0 || i== n || j==m || grid[i][j] == '0') return;
+        grid[i][j] = '0';
+        dfs(grid,i-1,j);
+        dfs(grid,i+1,j);
+        dfs(grid,i,j-1);
+        dfs(grid,i,j+1);
     }
-    
+
+public:
     int numIslands(vector<vector<char>>& grid) {
-        int row = grid.size();
-        
-        if(row==0) return 0;
-        
-        int col = grid[0].size();
-        
-        int noOfIslands = 0;
-        
-        for(int i =0;i<row;i++){
-            for(int j =0;j<col;j++){
-                if(grid[i][j]=='1'){
-                    mark_curr_island(grid,i,j,row,col);
-                    noOfIslands += 1;
+        int n=grid.size(), m = grid[0].size(), island=0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j] == '1') {
+                    island++;
+                    dfs(grid,i,j);
                 }
             }
         }
-        return noOfIslands;
+        return island;
     }
 };
