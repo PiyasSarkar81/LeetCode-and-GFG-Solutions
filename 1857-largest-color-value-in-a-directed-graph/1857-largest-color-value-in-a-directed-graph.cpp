@@ -1,38 +1,28 @@
 class Solution {
-    typedef array<int, 26> T;
+    int dfs(int node, string &colors, vector<vector<int>> &adj, vector<vector<int>> &count, vector<int> &vis) {
+        if (!vis[node]) {
+            vis[node] = 1;
+            for (int next : adj[node]) {
+                if (dfs(next, colors, adj, count, vis) == INT_MAX)
+                    return INT_MAX;
+                for (int c = 0; c < 26; c++)
+                    count[node][c] = max(count[node][c], count[next][c]);
+            }
+            ++count[node][colors[node] - 'a'];
+            vis[node] = 2;
+        }
+        return vis[node] == 2 ? count[node][colors[node] - 'a'] : INT_MAX;
+    }
 public:
     int largestPathValue(string colors, vector<vector<int>>& edges) {
-        unordered_map<int,vector<int>> adj;
         int n = colors.size();
-        vector<int> indegree(n);
-        for(auto e : edges){
+        vector<vector<int>> adj(n), count(n, vector<int>(26));
+        vector<int> vis(n);
+        for (auto &e : edges)
             adj[e[0]].push_back(e[1]);
-            indegree[e[1]]++;
-        }
-        vector<T> cnt(n,T{});
-        queue<int> q;
-        for(int i=0;i<n;i++){
-            if(indegree[i]==0){
-                q.push(i);
-                cnt[i][colors[i]-'a'] =1;
-            }
-        }
-        int ans =0,seen =0;
-        while(!q.empty()){
-            auto u = q.front();
-            q.pop();
-            int val = *max_element(cnt[u].begin(),cnt[u].end());
-            ans = max(ans,val);
-            seen++;
-            for(int v:adj[u]){
-                for(char i =0;i<26;i++){
-                    cnt[v][i] = max(cnt[v][i], cnt[u][i] + (i == colors[v]-'a'));
-                }
-                if (--indegree[v] == 0) {
-                    q.push(v);
-                }
-            }
-        }
-        return seen < colors.size() ? -1 : ans;
+        int ans = 0;
+        for (int i = 0; i < n && ans != INT_MAX; i++)
+            ans = max(ans, dfs(i, colors, adj, count, vis));
+        return ans == INT_MAX ? -1 : ans;
     }
 };
