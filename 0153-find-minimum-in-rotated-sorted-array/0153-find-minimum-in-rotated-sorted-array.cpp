@@ -2,18 +2,19 @@ class Solution {
 public:
     int findMin(vector<int>& nums) {
         int n = nums.size();
-        int low=0, high=n-1;
-        
-        while(low<high){
-            if(nums[low] <= nums[high]) return nums[low];
-            int mid = low + (high-low)/2;
-            if(nums[low] > nums[mid]){
-                high=mid;
-            } else if(nums[mid] > nums[high]) {
-                low=mid+1;
-            } 
+        int ans = nums[0];
+        int l = 0, r = n-1;
+        if(nums[l] < nums[r]) return nums[l];
+        while(l<r){
+            int m = l + (r-l)/2;
+            if(nums[m]<nums[r]){
+                r = m;
+            }
+            else{
+                l = m+1;
+            }
         }
-        if(nums[low] <= nums[high]) return nums[low];
-        return -1;
+        return nums[l];
+
     }
 };
