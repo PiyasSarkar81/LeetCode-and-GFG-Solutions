@@ -17,39 +17,38 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        if(!head) return head;
-        Node* temp = head;
-        //create mapping of cloned list using original list
-        while(temp){
-            Node* newNode = new Node(temp->val);
-            newNode -> next = temp -> next;
-            temp -> next = newNode;
-            temp = newNode -> next;
+        if (head == nullptr) {
+            return nullptr;
         }
 
-        // assigning random pointers
-        temp = head;
-        while(temp){
-            if(temp->random){
-                temp -> next -> random = temp ->random ->next;
-            }
-            temp = temp -> next -> next;
+        Node* l1 = head;
+        while (l1 != nullptr) {
+            Node* l2 = new Node(l1->val);
+            l2->next = l1->next;
+            l1->next = l2;
+            l1 = l2->next;
         }
 
-        // restore the original link list
         Node* newHead = head->next;
-        Node* temp2 = head -> next;
-        temp = head;
 
-        while(temp && temp2){
-            Node* currNode = temp2-> next;
-            temp->next = currNode;
-            if(currNode){
-                temp2 -> next = currNode -> next;
+        l1 = head;
+        while (l1 != nullptr) {
+            if (l1->random != nullptr) {
+                l1->next->random = l1->random->next;
             }
-            temp = temp -> next;
-            temp2 = temp2 -> next;
+            l1 = l1->next->next;
         }
+
+        l1 = head;
+        while (l1 != nullptr) {
+            Node* l2 = l1->next;
+            l1->next = l2->next;
+            if (l2->next != nullptr) {
+                l2->next = l2->next->next;
+            }
+            l1 = l1->next;
+        }
+
         return newHead;
     }
 };
